@@ -23,7 +23,7 @@ struct PeopleView: View {
         }
     }
     
-    init(searchString: String = "", sortOrder: [SortDescriptor<Person>]) {
+    init(searchString: String = "", sortOrder: [SortDescriptor<Person>] = [SortDescriptor(\Person.name)]) {
         _people = Query(filter: #Predicate { person in
             if searchString.isEmpty {
                 true
@@ -43,6 +43,13 @@ struct PeopleView: View {
     }
 }
 
-//#Preview {
-//    PeopleView()
-//}
+#Preview {
+    do {
+        let previewer = try Previewer()
+        
+        return PeopleView()
+            .modelContainer(previewer.container)
+    } catch {
+        return Text("Failed to create preview: \(error.localizedDescription)")
+    }
+}
